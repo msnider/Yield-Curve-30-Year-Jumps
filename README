@@ -1,0 +1,10 @@
+Description:
+Downloads the historical yields curve data and analyzes it for big jumps
+A big jump constitutes a 30 basis point or larger change within 4 days
+on the 30 year TBill
+
+Requirements:
+Requires BeautifulSoup
+
+Useage:
+python yieldcruve.py
