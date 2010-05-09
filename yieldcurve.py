@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-yeildcurve.py
+yieldcurve.py
 
 Created by Matt Snider on 2010-05-07.
 Copyright (c) 2010 __MyCompanyName__. All rights reserved.
@@ -15,12 +15,12 @@ from BeautifulSoup import BeautifulStoneSoup
 def main():
 	# Download the XML Historical Data
 	# WARNING: this file is very large
-	url = 'http://www.ustreas.gov/offices/domestic-finance/debt-management/interest-rate/yield_historical_huge.xml'
-	opener = urllib2.build_opener()
-	infile = opener.open(url)
-	#infile = open('yield_historical_huge.xml')
-	#xml = infile.read()
-	#infile.close()
+	#url = 'http://www.ustreas.gov/offices/domestic-finance/debt-management/interest-rate/yield_historical_huge.xml'
+	#opener = urllib2.build_opener()
+	#infile = opener.open(url)
+	infile = open('yield_historical_huge.xml')
+	xml = infile.read()
+	infile.close()
 	
 	soup = BeautifulStoneSoup(xml)
 	data = soup.findAll('g_bid_curve_date')
@@ -53,10 +53,11 @@ def main():
 				delta3 = yields['four'] - yields['three']
 				deltaSum = delta1 + delta2 + delta3
 			
-				if ((delta1 > 0.10) and (delta2 > 0.10) and (delta3 > 0.10)) or (deltaSum > 0.30):
+				if ((delta1 >= 0.10) and (delta2 >= 0.10) and (delta3 >= 0.10)) or (deltaSum >= 0.30):
+					print '%s - %s : %03.2f change : +%03.2f, +%03.2f, +%03.2f changes respectively' % (dates['one'],dates['four'],deltaSum,delta1,delta2,delta3)
+				elif ((delta1 <= -0.10) and (delta2 <= -0.10) and (delta3 <= -0.10)) or (deltaSum <= -0.30):
 					print '%s - %s : %03.2f change : %03.2f, %03.2f, %03.2f changes respectively' % (dates['one'],dates['four'],deltaSum,delta1,delta2,delta3)
-
-
+				
 if __name__ == '__main__':
 	main()
 
